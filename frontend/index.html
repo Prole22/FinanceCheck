@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Check</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f6f6f6;
+        }
+
+        :root {
+            --main-color: #44a25b;
+            --text-color: #ffffff;
+            --bg-color: #ffffff;
+            --container-bg: #ffffff;
+        }
+
+        header {
+            background-color: var(--main-color);
+            padding: 1rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        header h1 {
+            color: var(--text-color);
+            margin: 0;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        .hamburger {
+            width: 30px;
+            height: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            height: 3px;
+            background-color: var(--text-color);
+            border-radius: 2px;
+        }
+
+        nav {
+            position: absolute;
+            top: 70px;
+            right: 10px;
+            background-color: var(--main-color);
+            width: 200px;
+            border-radius: 0 0 0.5rem 0.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            flex-direction: column;
+            z-index: 999;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 0.75rem 1rem;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #368d4e;
+        }
+
+        .open {
+            display: flex !important;
+        }
+
+        .landing {
+            text-align: center;
+            padding: 3rem 1rem;
+            background-color: var(--bg-color);
+            border-bottom: 1px solid #ccc;
+        }
+        .landing h2 {
+            color: var(--main-color);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .landing p {
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+            font-weight: 400;
+        }
+        .btn-start {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #3478f6;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+        .btn-start:hover {
+            background-color: #275dc4;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Finance Check</h1>
+        <div class="hamburger" onclick="document.querySelector('nav').classList.toggle('open')">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <nav>
+            <a href="#why-finance-check">Warum ein Finance Check?</a>
+            <a href="#roadmap-section">Wie funktioniert der Finance Check?</a>
+            <a href="#finance-check">Jetzt starten</a>
+        </nav>
+    </header>
+
+    <section class="landing">
+        <h2>Willkommen zu Ihrem persönlichen Finance Check!</h2>
+        <p>
+            Erhalten Sie in wenigen Schritten eine individuelle und transparente Finanzübersicht,
+            die optimal auf Ihre Lebenssituation und Ziele abgestimmt ist. Mit unserem schnellen
+            und intuitiven Fragebogen können Sie sicherstellen, dass Ihre Investitionsstrategie
+            perfekt zu Ihnen passt.
+        </p>
+        <a class="btn-start" href="#finance-check">Jetzt starten</a>
+    </section>
+
+    <div class="green-box" id="disclaimer">
+        <h2>Disclaimer</h2>
+        <p>
+            Achtung: Der ausgegebene Finanzbericht stellt keine professionelle Finanzberatung dar,
+            sondern dient lediglich als unverbindlicher Richtwert und zur ersten Orientierung.
+            Wir übernehmen keine Haftung für entstandene Schäden aufgrund von Handlungen, die
+            auf Basis dieses Berichts durchgeführt werden. Bitte informieren Sie sich bei
+            Bedarf zusätzlich bei einer professionellen Finanzberatung.
+        </p>
+    </div>
+
+    <div class="container" id="finance-check">
+        <h2>Ihre Angaben</h2>
+        <form>
+            <div class="form-group">
+                <label for="email">Bitte geben Sie Ihre E-Mail-Adresse an</label>
+                <input type="email" id="email" name="email" placeholder="z. B. max.mustermann@example.com"/>
+            </div>
+        </form>
+    </div>
+
+    <div class="footer-privacy">
+        <p>
+            Datenschutzhinweis: Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Alle Angaben,
+            die Sie in diesem Formular machen, werden ausschließlich zum Zweck der Erstellung Ihres
+            persönlichen Finanzberichts verwendet. Dazu werden die Daten an unseren Dienstleister
+            (z. B. OpenAI) weitergegeben, jedoch nicht für Trainingszwecke verwendet. Eine Weitergabe
+            an unbeteiligte Dritte findet nicht statt.
+        </p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
