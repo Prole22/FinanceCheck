@@ -43,11 +43,17 @@ async def get_homepage():
 
 # Datenmodell für User-Eingaben
 class FinanceInput(BaseModel):
-    name: str
+    username: str
     email: str
-    investment_amount: float
-    risk_level: str
-    duration: int
+    beruf: str
+    familie: str
+    erfahrung: str
+    alter: int
+    budget: float
+    risiko: int
+    ausschluss: str
+    horizont: str
+    investitionsweise: str
 
 # Endpunkt für den Finanz-Check mit Logging
 @app.post("/finance-check/")
@@ -63,7 +69,7 @@ def get_finance_check(data: FinanceInput):
             model="gpt-4o",  # Verwendet das leistungsstärkere GPT-4o
             messages=[
                 {"role": "system", "content": "Du bist ein hilfreicher Finanzplaner."},
-                {"role": "user", "content": f"Berechne eine Investitionsstrategie für {data.name} basierend auf den folgenden Angaben: {data.investment_amount}€, Risiko: {data.risk_level}, Dauer: {data.duration} Jahre."}
+                {"role": "user", "content": f"Berechne eine Investitionsstrategie für {data.username}, der {data.alter} Jahre alt ist. Berufliche Situation: {data.beruf}, familiäre Situation: {data.familie}. Risikobereitschaft: {data.risiko} (Skala 1-10), monatliches Budget: {data.budget}€, Ausschlusskriterien: {data.ausschluss}. Anlagehorizont: {data.horizont}, Investitionsweise: {data.investitionsweise}."}
             ],
             max_tokens=150,
             temperature=0.7  # Optional: Erhöht Kreativität, Standard wäre 1.0
@@ -76,9 +82,18 @@ def get_finance_check(data: FinanceInput):
         ai_response = "Es gab ein Problem bei der Anfrage an die KI."
 
     return {
-        "message": f"Hallo {data.name}, deine Daten wurden empfangen!",
-        "investment": data.investment_amount,
-        "risk": data.risk_level,
-        "duration": data.duration,
-        "ai_response": ai_response  # KI-Antwort zurückgeben
-    }
+    "message": f"Hallo {data.username}, deine Daten wurden empfangen!",
+    "email": data.email,  # Beispiel: E-Mail
+    "beruf": data.beruf,  # Beispiel: Beruf
+    "familie": data.familie,  # Beispiel: Familiäre Situation
+    "erfahrung": data.erfahrung,  # Beispiel: Erfahrung
+    "alter": data.alter,  # Beispiel: Alter
+    "budget": data.budget,  # Beispiel: Budget
+    "risiko": data.risiko,  # Beispiel: Risikolevel
+    "ausschluss": data.ausschluss,  # Beispiel: Ausschlusskriterien
+    "horizont": data.horizont,  # Beispiel: Horizont
+    "investitionsweise": data.investitionsweise,  # Beispiel: Investitionsweise
+    "ai_response": ai_response  # Antwort von der KI
+}
+
+
