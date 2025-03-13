@@ -315,6 +315,86 @@
         </p>
         <a class="btn-start" href="javascript:void(0);" onclick="showForm()">Jetzt starten</a>
     </section>
+
+    <!-- Warum ein Finance Check? -->
+  <div class="green-box" id="why-finance-check">
+    <h2>Warum ein Finance Check wichtig ist</h2>
+    <p>
+      Viele Menschen möchten investieren, sind aber unsicher, womit sie anfangen sollen. Ein
+      erster Schritt ist es, die eigene finanzielle Situation und die persönlichen Ziele zu
+      analysieren. Genau hier setzt unser Finance Check an. In wenigen Minuten bekommst du
+      einen groben Überblick darüber, welche Investitionsmöglichkeiten zu deinem Profil passen.
+    </p>
+    <p>
+      Unser Tool hilft dir dabei, dich selbst besser als Anlegertyp kennenzulernen: Wie hoch
+      ist deine Risikobereitschaft? Welche Branchen oder Produktarten möchtest du gezielt
+      ausschließen? Durch die Beantwortung weniger Fragen erhältst du einen ersten
+      Orientierungspunkt, mit dem du dich weitergehend informieren kannst.
+    </p>
+    <p>
+      Ob du ganz neu in die Finanzwelt einsteigst oder bereits erste Erfahrungen gesammelt
+      hast – unser Finance Check kann für jeden eine sinnvolle Grundlage sein, um zukünftige
+      Investitionsentscheidungen besser einzuordnen und vorbereiten zu können.
+    </p>
+    <p>
+      Mit unserem Tool sparst du Zeit und erhöhst die Transparenz. Innerhalb von 2–5 Minuten
+      erhältst du einen konkreten Überblick, der dir hilft, dich im Dschungel der
+      Anlagemöglichkeiten zurechtzufinden.
+    </p>
+  </div>
+
+   <!-- Roadmap Section -->
+   <section class="roadmap-section" id="roadmap-section">
+    <div class="roadmap-container">
+      <h2>Wie funktioniert der Finance Check?</h2>
+      <div class="roadmap">
+        <!-- Step 1 -->
+        <div class="step">
+          <div class="icon">
+            <div class="step-circle-outer">
+              <div class="step-circle-inner">1</div>
+            </div>
+          </div>
+          <div class="step-text">
+            <h3>Angaben ausfüllen und abschicken</h3>
+          </div>
+        </div>
+        <!-- Step 2 -->
+        <div class="step">
+          <div class="icon">
+            <div class="step-circle-outer">
+              <div class="step-circle-inner">2</div>
+            </div>
+          </div>
+          <div class="step-text">
+            <h3>Unsere AI führt einen detaillierten Finance- und Background-Check durch</h3>
+          </div>
+        </div>
+        <!-- Step 3 -->
+        <div class="step">
+          <div class="icon">
+            <div class="step-circle-outer">
+              <div class="step-circle-inner">3</div>
+            </div>
+          </div>
+          <div class="step-text">
+            <h3>Dein persönlicher detaillierter Bericht wird erstellt</h3>
+          </div>
+        </div>
+        <!-- Step 4 -->
+        <div class="step">
+          <div class="icon">
+            <div class="step-circle-outer">
+              <div class="step-circle-inner">4</div>
+            </div>
+          </div>
+          <div class="step-text">
+            <h3>Du erhältst deinen Bericht via E-Mail</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
     
     <div class="green-box" id="disclaimer">
         <h2>Disclaimer</h2>
@@ -327,6 +407,8 @@
         </p>
     </div>
 
+    
+    <div class="container">
     <div id="form-section" style="display: none;">
         <form id="finance-form">
         <div class="form-group">
@@ -377,6 +459,7 @@
         <button type="submit" class="submit-btn">Finance Check durchführen</button>
       </form>
     </div>
+  </div>
 
         <!-- Abschnitt für die KI-Antwort -->
     <div class="container" id="result-section" style="display: none;">
@@ -386,6 +469,7 @@
          <p><strong>KI-Antwort:</strong></p>
          <p id="ai-response">Hier wird die Antwort angezeigt...</p>
         </div>
+        <button id="send-email-btn" class="submit-btn">Per Mail senden</button>
         <a href="/" class="submit-btn">Zurück zur Startseite</a>
     </div>
 

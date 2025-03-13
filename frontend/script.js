@@ -17,6 +17,13 @@ function showForm() {
     document.getElementById('form-section').style.display = 'block';
     // Startbutton ausblenden
     document.querySelector('.btn-start').style.display = 'none';
+
+    // Die Sektionen ausblenden
+    document.getElementById('why-finance-check').style.display = 'none';
+    document.getElementById('roadmap-section').style.display = 'none';
+
+    // Optional: Nach oben scrollen, damit die Felder direkt sichtbar sind
+    document.getElementById('form-section').scrollIntoView({ behavior: 'smooth' });
 }
 
 document.getElementById('finance-form').addEventListener('submit', function(event) {
@@ -63,4 +70,58 @@ document.getElementById('finance-form').addEventListener('submit', function(even
         document.getElementById('ai-response').innerText = 'Ein Fehler ist aufgetreten.';
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const sendEmailBtn = document.getElementById('send-email-btn');
+
+    if (sendEmailBtn) {
+        sendEmailBtn.addEventListener('click', function () {
+            sendEmail();
+        });
+    }
+});
+
+function sendEmail() {
+    // Finanzstrategie abrufen
+    const financeCheckResult = document.getElementById('ai-response').innerText;
+
+    // Formulardaten aus den Eingabefeldern holen
+    const formData = new FormData(document.getElementById('finance-form'));
+    const data = {
+        username: formData.get('username'),
+        email: formData.get('email'),
+        beruf: formData.get('beruf'),
+        familie: formData.get('familie'),
+        erfahrung: formData.get('erfahrung'),
+        alter: parseInt(formData.get('alter')),
+        budget: parseFloat(formData.get('budget')),
+        risiko: parseInt(formData.get('risiko')),
+        ausschluss: formData.get('ausschluss'),
+        horizont: formData.get('horizont'),
+        investitionsweise: formData.get('investitionsweise'),
+        ai_response: financeCheckResult // KI-Antwort hinzufügen
+    };
+
+    if (!data.email) {
+        alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+        return;
+    }
+
+    fetch('/send-email/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+    })
+    .catch(error => {
+        console.error('Fehler beim Senden der E-Mail:', error);
+        alert('E-Mail konnte nicht gesendet werden.');
+    });
+}
 

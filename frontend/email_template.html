@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Finance Check Ergebnis</title>
+    <!-- Google Fonts: Open Sans -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
+    <style>
+      /* Grundlegendes E-Mail-Styling */
+      body {
+        font-family: 'Open Sans', sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+        hyphens: auto;
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+      }
+      
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      
+      .header {
+        background-color: #37a170;
+        color: #ffffff;
+        padding: 20px;
+        text-align: center;
+      }
+      
+      .header h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+      
+      .content {
+        padding: 20px;
+      }
+      
+      .content h2 {
+        color: #37a170;
+        margin-top: 0;
+      }
+      
+      .block {
+        margin-bottom: 20px;
+      }
+      
+      /* Große Divider zwischen Anlageformen */
+      .divider {
+        border: none;
+        border-top: 2px solid #e0e0e0;
+        margin: 30px 0;
+      }
+      
+      /* Kleiner Divider */
+      .small-divider {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 10px 0;
+      }
+      
+      /* Persönliche Situation Box */
+      .situation-box {
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      
+      /* Platzhalterstil (grüne Schrift) */
+      .placeholder {
+        color: #37a170;
+        font-weight: bold;
+      }
+      
+      /* Tabelle */
+      .table-container {
+        width: 100%;
+        overflow-x: auto;
+      }
+      
+      .table-overview {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        table-layout: fixed;
+      }
+      
+      .table-overview th,
+      .table-overview td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+        word-wrap: break-word;
+      }
+      
+      .table-overview th {
+        background-color: #f0f0f0;
+      }
+      
+      .footer {
+        background-color: #37a170;
+        color: #ffffff;
+        padding: 15px;
+        text-align: center;
+      }
+      
+      a.button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #37a170;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 4px;
+      }
+      
+      .highlight {
+        font-weight: 600;
+        color: #37a170;
+      }
+      
+      /* Score-Container */
+      .score-container {
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+        padding: 8px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+      }
+      
+      .score-container h4 {
+        margin: 0 0 0.3rem 0;
+        font-size: 0.95rem;
+        font-weight: bold;
+      }
+      
+      .score-hint {
+        font-style: italic;
+        color: #777;
+        margin: 0 0 0.5rem 0;
+        font-size: 0.85rem;
+      }
+      
+      .score-extra {
+        font-size: 0.85rem;
+        margin: 0 0 0.5rem 0;
+        color: #555;
+      }
+      
+      .score-boxes {
+        display: inline-flex;
+        gap: 0.3rem;
+      }
+      
+      /* Score Boxen */
+      .box {
+        width: 40px;
+        height: 20px;
+        border: 2px solid #000;
+        border-radius: 4px;
+        background-color: #fff;
+      }
+      
+      /* Alte Rating-Klassen für Personal-Match-Score (ehemals Persönliche Empfehlung) */
+      .rating-1 .box:nth-child(1) { background-color: #ff4d4d; }
+      .rating-2 .box:nth-child(-n+2) { background-color: #ffe600; }
+      .rating-3 .box:nth-child(-n+3) { background-color: #ffe600; }
+      .rating-4 .box:nth-child(-n+4) { background-color: #37a170; }
+      .rating-5 .box:nth-child(-n+5) { background-color: #37a170; }
+      
+      /* Neue Fixed-Rating-Klassen */
+      .fixed-rating-1 .box:nth-child(1) { background-color: #3478F6; }
+      .fixed-rating-2 .box:nth-child(-n+2) { background-color: #3478F6; }
+      .fixed-rating-3 .box:nth-child(-n+3) { background-color: #3478F6; }
+      .fixed-rating-4 .box:nth-child(-n+4) { background-color: #3478F6; }
+      .fixed-rating-5 .box:nth-child(-n+5) { background-color: #3478F6; }
+      
+      /* Vorteile & Nachteile Boxen – grauer Hintergrund mit farbiger Umrandung */
+      .pros-cons-container {
+        display: flex;
+        gap: 20px;
+        margin: 15px 0;
+      }
+      .pros-box, .cons-box {
+        flex: 1;
+        padding: 10px;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+      }
+      .pros-box {
+        border: 2px solid #37a170;
+      }
+      .cons-box {
+        border: 2px solid #ff4d4d;
+      }
+      .pros-box h4 {
+        margin: 0 0 10px 0;
+        font-size: 16px;
+        color: #37a170;
+      }
+      .cons-box h4 {
+        margin: 0 0 10px 0;
+        font-size: 16px;
+        color: #ff4d4d;
+      }
+      .pros-box ul, .cons-box ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+      .pros-box li, .cons-box li {
+        list-style-type: disc;
+        margin-bottom: 5px;
+      }
+      
+      /* Absatzformatierung in Erläuterungen */
+      .explanation p {
+        margin-bottom: 10px;
+        line-height: 1.5;
+      }
+      
+      /* Platzhalter für Personal-Match-Score Gründe */
+      .recommendation-details {
+        margin-top: 10px;
+        font-size: 0.85rem;
+        color: #555;
+      }
+      .recommendation-details ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+      .recommendation-details li {
+        list-style-type: disc;
+        margin-bottom: 5px;
+      }
+      
+      /* Persönliche Anrede und Einführung */
+      .introduction {
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+      .introduction p {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Kopfbereich -->
+      <div class="header">
+        <h1>Dein persönlicher Finance Check</h1>
+      </div>
+      
+      <!-- Einleitung mit persönlicher Anrede und Erklärung -->
+      <div class="content">
+        <div class="introduction">
+          <p>Hi <strong>{{Name}}</strong>,</p>
+          <p>herzlich willkommen zu deinem Finance Check!</p>
+          <p>
+            In den folgenden Abschnitten findest du detaillierte Erläuterungen zu den gängigsten Anlageformen, eine Übersicht der wichtigsten Vor- und Nachteile sowie eine Bewertung in Form von Scores. Diese Scores helfen dir dabei, die für dich passende Anlageform zu identifizieren. Zusätzlich erhältst du unter jeder Anlageform eine persönliche Einschätzung in Form des <strong>Personal-Match-Scores (PMS)</strong>, der dir auf einen Blick zeigt, wie gut die jeweilige Investitionsmethode zu deiner finanziellen und persönlichen Situation passt.
+          </p>
+        </div>
+        
+        <!-- Divider zwischen Einleitung und persönlicher Situation -->
+        <hr class="small-divider">
+        
+        <!-- Persönliche Situation in einer extra Box als Fließtext mit Platzhaltern -->
+        <div class="block">
+          <h2>Deine persönliche Situation</h2>
+          <div class="situation-box">
+            <p>
+              Du befindest dich in der beruflichen Situation <span class="placeholder">{{BerufsStatus}}</span> und hast eine familiäre Situation, die <span class="placeholder">{{Familiensituation}}</span> ist. 
+              Deine bisherigen Erfahrungen im Bereich Investieren sind <span class="placeholder">{{Investitionserfahrung}}</span> und du bist <span class="placeholder">{{Alter}}</span> Jahre alt.
+              Für Investitionen kannst du monatlich ein Budget von <span class="placeholder">{{Budget}}</span> Euro einplanen. 
+              Deine Risikobereitschaft liegt auf der Skala bei <span class="placeholder">{{Risikobereitschaft}}</span> (1 = risikoavers bis 10 = risikofreudig).
+              Ethische Präferenzen: Du möchtest nicht in Branchen/Unternehmen investieren, die <span class="placeholder">{{EthikFilter}}</span> entsprechen.
+              Dein Anlagehorizont ist <span class="placeholder">{{Anlagehorizont}}</span> und du planst, <span class="placeholder">{{Investitionsrhythmus}}</span> zu investieren.
+              Außerdem bringst du ein Startkapital von <span class="placeholder">{{Startkapital}}</span> mit.
+            </p>
+          </div>
+        </div>
+        
+        <hr class="divider">
+        
+        <!-- Anlageform 1: Tagesgeld -->
+        <div class="block">
+          <h2>Anlageform 1: Tagesgeld</h2>
+          <div class="explanation">
+            <p>
+              Tagesgeldkonten sind flexible Sparkonten, die dir ermöglichen, kurzfristig Geld anzulegen. Dabei steht die tägliche Verfügbarkeit im Vordergrund – du kannst jederzeit auf dein Geld zugreifen.
+            </p>
+            <p>
+              Die Einlagen sind durch die gesetzliche Einlagensicherung bis zu 100.000 € geschützt, was diese Anlageform zu einer der sichersten Optionen macht. Beim Investieren in Tagesgeld handelt es sich vor allem um das Ansparen von Kapital mit minimalem Risiko.
+            </p>
+            <p>
+              Diese Anlageform ist besonders für Einsteiger attraktiv, da sie unkompliziert und transparent ist. Fortgeschrittene und Profis nutzen Tagesgeld häufig als sicheren Bestandteil ihrer Liquiditätsreserve.
+            </p>
+          </div>
+          <hr class="small-divider">
+          <div class="pros-cons-container">
+            <div class="pros-box">
+              <h4>Vorteile:</h4>
+              <ul>
+                <li>Hohe Sicherheit durch gesetzliche Einlagensicherung</li>
+                <li>Tägliche Verfügbarkeit</li>
+                <li>Einfache Handhabung</li>
+              </ul>
+            </div>
+            <div class="cons-box">
+              <h4>Nachteile:</h4>
+              <ul>
+                <li>Niedrige Renditen</li>
+                <li>Keine Inflationsanpassung</li>
+                <li>Begrenzte Gewinnchancen</li>
+              </ul>
+            </div>
+          </div>
+          <hr class="small-divider">
+          <!-- Score-Blöcke für Tagesgeld -->
+          <div class="score-container fixed-rating-5">
+            <h4>Investitionssicherheit</h4>
+            <p class="score-hint">
+              Dank der gesetzlichen Einlagensicherung bis 100.000 € ist Tagesgeld sehr sicher.
+            </p>
+            <p class="score-extra">Bewertung: 5 – Sehr hohe Sicherheit.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-1">
+            <h4>Zeithorizont</h4>
+            <p class="score-hint">
+              Tagesgeld eignet sich für kurzfristige Anlagen, da es täglich verfügbar ist und keine langfristige Bindung erfordert.
+            </p>
+            <p class="score-extra">Bewertung: 1 – Sehr kurzfristiger Anlagehorizont.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-1">
+            <h4>Renditeerwartung</h4>
+            <p class="score-hint">
+              Die Verzinsung ist aktuell niedrig, weshalb die Renditeerwartung gering ausfällt.
+            </p>
+            <p class="score-extra">Bewertung: 1 – Geringe Renditeerwartung.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-1">
+            <h4>Komplexität</h4>
+            <p class="score-hint">
+              Tagesgeld ist unkompliziert und transparent, ohne komplexe Konditionen.
+            </p>
+            <p class="score-extra">Bewertung: 1 – Sehr geringe Komplexität.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container rating-4">
+            <h4>Personal-Match-Score (PMS)</h4>
+            <p class="score-hint">
+              Gesamteinschätzung, wie gut diese Anlageform zu deiner Situation passt.
+            </p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+            <div class="recommendation-details">
+              <strong>Gründe:</strong>
+              <ul>
+                <li>[Platzhalter Grund 1]</li>
+                <li>[Platzhalter Grund 2]</li>
+                <li>[Platzhalter Grund 3]</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <hr class="divider">
+        
+        <!-- Anlageform 2: Festgeld -->
+        <div class="block">
+          <h2>Anlageform 2: Festgeld</h2>
+          <div class="explanation">
+            <p>
+              Festgeldanlagen sind zeitlich festgelegte Investitionen, bei denen dein Kapital für einen definierten Zeitraum zu einem fixen Zinssatz angelegt wird.
+            </p>
+            <p>
+              Zu Beginn werden Laufzeit und Zinssatz festgelegt, sodass du schon früh weißt, welche Erträge auf dich zukommen. Diese Methode bietet hohe Planungssicherheit und eignet sich besonders für Anleger, die keine kurzfristigen Liquiditätsbedürfnisse haben.
+            </p>
+            <p>
+              Einsteiger profitieren von der übersichtlichen und risikoarmen Struktur, Fortgeschrittene nutzen Festgeld als sicheren Baustein und Profis integrieren es als stabilen Bestandteil in ein diversifiziertes Portfolio.
+            </p>
+          </div>
+          <hr class="small-divider">
+          <div class="pros-cons-container">
+            <div class="pros-box">
+              <h4>Vorteile:</h4>
+              <ul>
+                <li>Hohe Sicherheit durch gesetzliche Einlagensicherung</li>
+                <li>Planbare und feste Zinsen</li>
+                <li>Einfache und transparente Struktur</li>
+              </ul>
+            </div>
+            <div class="cons-box">
+              <h4>Nachteile:</h4>
+              <ul>
+                <li>Kapitalbindung über feste Laufzeiten</li>
+                <li>Eingeschränkte Liquidität</li>
+                <li>Niedrigere Rendite im Vergleich zu risikoreicheren Anlagen</li>
+              </ul>
+            </div>
+          </div>
+          <hr class="small-divider">
+          <!-- Score-Blöcke für Festgeld -->
+          <div class="score-container fixed-rating-5">
+            <h4>Investitionssicherheit</h4>
+            <p class="score-hint">
+              Festgeld profitiert von der gesetzlichen Einlagensicherung und bietet somit hohe Sicherheit.
+            </p>
+            <p class="score-extra">Bewertung: 5 – Sehr hohe Sicherheit.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-3">
+            <h4>Zeithorizont</h4>
+            <p class="score-hint">
+              Aufgrund der festen Laufzeit ist ein mittelfristiger Anlagehorizont erforderlich.
+            </p>
+            <p class="score-extra">Bewertung: 3 – Mittelfristiger Anlagehorizont.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-2">
+            <h4>Renditeerwartung</h4>
+            <p class="score-hint">
+              Die Rendite liegt moderat über der von Tagesgeld, bleibt jedoch überschaubar.
+            </p>
+            <p class="score-extra">Bewertung: 2 – Geringe Renditeerwartung.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-1">
+            <h4>Komplexität</h4>
+            <p class="score-hint">
+              Festgeld ist einfach strukturiert und leicht verständlich.
+            </p>
+            <p class="score-extra">Bewertung: 1 – Sehr geringe Komplexität.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container rating-4">
+            <h4>Personal-Match-Score (PMS)</h4>
+            <p class="score-hint">
+              Gesamteinschätzung, wie gut diese Anlageform zu deiner Situation passt.
+            </p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+            <div class="recommendation-details">
+              <strong>Gründe:</strong>
+              <ul>
+                <li>[Platzhalter Grund 1]</li>
+                <li>[Platzhalter Grund 2]</li>
+                <li>[Platzhalter Grund 3]</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <hr class="divider">
+        
+        <!-- Anlageform 3: ETF -->
+        <div class="block">
+          <h2>Anlageform 3: ETF</h2>
+          <div class="explanation">
+            <p>
+              ETFs (Exchange Traded Funds) sind börsengehandelte Fonds, die einen Index wie den MSCI World oder DAX nachbilden. Durch diese Struktur investierst du indirekt in hunderte oder tausende von Unternehmen – alles in einem Produkt.
+            </p>
+            <p>
+              Die breite Diversifikation senkt das Risiko und sorgt für eine effiziente Streuung deines Kapitals. Zudem profitierst du von niedrigen Verwaltungskosten und hoher Liquidität, da ETFs wie Aktien an der Börse gehandelt werden.
+            </p>
+            <p>
+              Einsteiger finden in ETFs einen einfachen Zugang zu den globalen Märkten, während Fortgeschrittene die geringe Kostenstruktur schätzen. Profis setzen ETFs als effizientes Instrument zur Umsetzung komplexer Anlagestrategien ein.
+            </p>
+          </div>
+          <hr class="small-divider">
+          <div class="pros-cons-container">
+            <div class="pros-box">
+              <h4>Vorteile:</h4>
+              <ul>
+                <li>Breite Diversifikation</li>
+                <li>Niedrige Verwaltungskosten</li>
+                <li>Einfache Handhabung und passives Management</li>
+              </ul>
+            </div>
+            <div class="cons-box">
+              <h4>Nachteile:</h4>
+              <ul>
+                <li>Marktschwankungen abhängig vom zugrunde liegenden Index</li>
+                <li>Kein aktives Management</li>
+              </ul>
+            </div>
+          </div>
+          <hr class="small-divider">
+          <!-- Score-Blöcke für ETF -->
+          <div class="score-container fixed-rating-4">
+            <h4>Investitionssicherheit</h4>
+            <p class="score-hint">
+              Durch breite Streuung bieten ETFs eine hohe Sicherheit, wenngleich Marktschwankungen nie vollständig auszuschließen sind.
+            </p>
+            <p class="score-extra">Bewertung: 4 – Hohe Sicherheit.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-5">
+            <h4>Zeithorizont</h4>
+            <p class="score-hint">
+              ETFs sind ideal für langfristige Anlagen, da sie über Jahre hinweg Marktschwankungen ausgleichen.
+            </p>
+            <p class="score-extra">Bewertung: 5 – Sehr langfristiger Anlagehorizont.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-4">
+            <h4>Renditeerwartung</h4>
+            <p class="score-hint">
+              Die breite Marktstreuung sorgt für solide Renditechancen.
+            </p>
+            <p class="score-extra">Bewertung: 4 – Hohe Renditeerwartung.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-3">
+            <h4>Komplexität</h4>
+            <p class="score-hint">
+              ETFs sind relativ einfach zu verstehen, erfordern aber ein Grundverständnis der Märkte.
+            </p>
+            <p class="score-extra">Bewertung: 3 – Mittlere Komplexität.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container rating-4">
+            <h4>Personal-Match-Score (PMS)</h4>
+            <p class="score-hint">
+              Gesamteinschätzung, wie gut diese Anlageform zu deiner Situation passt.
+            </p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+            <div class="recommendation-details">
+              <strong>Gründe:</strong>
+              <ul>
+                <li>[Platzhalter Grund 1]</li>
+                <li>[Platzhalter Grund 2]</li>
+                <li>[Platzhalter Grund 3]</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <hr class="divider">
+        
+        <!-- Anlageform 4: Aktien -->
+        <div class="block">
+          <h2>Anlageform 4: Aktien</h2>
+          <div class="explanation">
+            <p>
+              Aktien repräsentieren Anteile an Unternehmen. Beim Kauf von Aktien erwirbst du einen Anteil am Eigenkapital eines Unternehmens und partizipierst so an dessen wirtschaftlichem Erfolg – sei es durch Kurssteigerungen oder Dividendenausschüttungen.
+            </p>
+            <p>
+              Für Einsteiger ist es wichtig, die grundlegenden Mechanismen und Risiken zu verstehen. Fortgeschrittene analysieren Chancen und Risiken eigenständig, während professionelle Anleger ihre Entscheidungen auf umfangreiche Markt- und Unternehmensdaten stützen.
+            </p>
+            <p>
+              Das Investieren in Aktien erfordert daher eine kontinuierliche Beobachtung des Marktes und fundierte Analysen.
+            </p>
+          </div>
+          <hr class="small-divider">
+          <div class="pros-cons-container">
+            <div class="pros-box">
+              <h4>Vorteile:</h4>
+              <ul>
+                <li>Hohe Renditechancen</li>
+                <li>Beteiligung am Unternehmenswachstum</li>
+                <li>Möglichkeit zur Dividendenzahlung</li>
+              </ul>
+            </div>
+            <div class="cons-box">
+              <h4>Nachteile:</h4>
+              <ul>
+                <li>Hohe Volatilität</li>
+                <li>Erhöhtes Risiko</li>
+                <li>Hoher Informationsaufwand</li>
+              </ul>
+            </div>
+          </div>
+          <hr class="small-divider">
+          <!-- Score-Blöcke für Aktien -->
+          <div class="score-container fixed-rating-2">
+            <h4>Investitionssicherheit</h4>
+            <p class="score-hint">
+              Aufgrund starker Kursschwankungen und höherer Risiken ist die Sicherheit bei Aktien vergleichsweise niedrig.
+            </p>
+            <p class="score-extra">Bewertung: 2 – Geringe Sicherheit.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-5">
+            <h4>Zeithorizont</h4>
+            <p class="score-hint">
+              Aktien sind optimal für langfristige Anlagen, da sie über längere Zeiträume an Wert gewinnen können.
+            </p>
+            <p class="score-extra">Bewertung: 5 – Sehr langfristiger Anlagehorizont.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-5">
+            <h4>Renditeerwartung</h4>
+            <p class="score-hint">
+              Aktien bieten bei richtiger Auswahl ein hohes Gewinnpotenzial.
+            </p>
+            <p class="score-extra">Bewertung: 5 – Sehr hohe Renditeerwartung.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-4">
+            <h4>Komplexität</h4>
+            <p class="score-hint">
+              Die Analyse von Aktien erfordert fundiertes Wissen und kontinuierliche Marktbeobachtung.
+            </p>
+            <p class="score-extra">Bewertung: 4 – Hohe Komplexität.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container rating-3">
+            <h4>Personal-Match-Score (PMS)</h4>
+            <p class="score-hint">
+              Gesamteinschätzung, wie gut diese Anlageform zu deiner Situation passt.
+            </p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+            <div class="recommendation-details">
+              <strong>Gründe:</strong>
+              <ul>
+                <li>[Platzhalter Grund 1]</li>
+                <li>[Platzhalter Grund 2]</li>
+                <li>[Platzhalter Grund 3]</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <hr class="divider">
+        
+        <!-- Anlageform 5: Kryptowährungen -->
+        <div class="block">
+          <h2>Anlageform 5: Kryptowährungen</h2>
+          <div class="explanation">
+            <p>
+              Kryptowährungen sind digitale oder virtuelle Währungen, die auf kryptographischen Verfahren beruhen und dezentral über Blockchain-Netzwerke verwaltet werden.
+            </p>
+            <p>
+              Sie ermöglichen den direkten Peer-to-Peer-Transfer von Werten, ohne dass eine zentrale Institution als Vermittler benötigt wird. Beim Investieren in Kryptowährungen betritt man ein hochspekulatives Feld, das von starken Kursschwankungen und innovativen Technologien geprägt ist.
+            </p>
+            <p>
+              Einsteiger sollten sich intensiv mit der Funktionsweise und den Risiken auseinandersetzen, während Fortgeschrittene die Marktmechanismen genauer analysieren. Profis nutzen detaillierte technische und regulatorische Analysen, um gezielt in ausgewählte Kryptowährungen zu investieren.
+            </p>
+          </div>
+          <hr class="small-divider">
+          <div class="pros-cons-container">
+            <div class="pros-box">
+              <h4>Vorteile:</h4>
+              <ul>
+                <li>Potenziell sehr hohe Gewinne</li>
+                <li>Rund um die Uhr handelbar (24/7)</li>
+                <li>Innovative Technologie und Dezentralisierung</li>
+              </ul>
+            </div>
+            <div class="cons-box">
+              <h4>Nachteile:</h4>
+              <ul>
+                <li>Extreme Volatilität</li>
+                <li>Regulatorische Unsicherheiten</li>
+                <li>Hoher technischer und informationsbezogener Aufwand</li>
+              </ul>
+            </div>
+          </div>
+          <hr class="small-divider">
+          <!-- Score-Blöcke für Kryptowährungen -->
+          <div class="score-container fixed-rating-1">
+            <h4>Investitionssicherheit</h4>
+            <p class="score-hint">
+              Aufgrund extremer Kursschwankungen und oft unregulierter Märkte ist die Sicherheit sehr gering.
+            </p>
+            <p class="score-extra">Bewertung: 1 – Sehr geringe Sicherheit.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-2">
+            <h4>Zeithorizont</h4>
+            <p class="score-hint">
+              Kryptowährungen eignen sich eher für kurzfristige Investments, da sie stark schwanken.
+            </p>
+            <p class="score-extra">Bewertung: 2 – Kurzfristiger Anlagehorizont.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-5">
+            <h4>Renditeerwartung</h4>
+            <p class="score-hint">
+              Trotz hoher Risiken besteht das Potenzial für sehr hohe Gewinne.
+            </p>
+            <p class="score-extra">Bewertung: 5 – Sehr hohe Renditeerwartung.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container fixed-rating-5">
+            <h4>Komplexität</h4>
+            <p class="score-hint">
+              Der Handel und die Bewertung von Kryptowährungen sind äußerst komplex und erfordern spezielles Fachwissen.
+            </p>
+            <p class="score-extra">Bewertung: 5 – Sehr hohe Komplexität.</p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+          </div>
+          <div class="score-container rating-2">
+            <h4>Personal-Match-Score (PMS)</h4>
+            <p class="score-hint">
+              Gesamteinschätzung, wie gut diese Anlageform zu deiner Situation passt.
+            </p>
+            <div class="score-boxes">
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+            <div class="recommendation-details">
+              <strong>Gründe:</strong>
+              <ul>
+                <li>[Platzhalter Grund 1]</li>
+                <li>[Platzhalter Grund 2]</li>
+                <li>[Platzhalter Grund 3]</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <hr class="divider">
+        
+        <!-- Individuelles Fazit -->
+        <div class="block">
+          <h2>Dein individuelles Fazit</h2>
+          <p>
+            Zusammenfassend zeigt dein Finance Check, dass du in deiner derzeitigen Situation – 
+            mit <strong>{{Budget}} Euro monatlichem Budget</strong> und einer 
+            <strong>{{Risikobereitschaft}}</strong> Risikobereitschaft – vor allem auf langfristige Sicherheit und planbare Renditen setzt.
+          </p>
+          <p>
+            Aufgrund dieser Analyse empfehlen wir dir <span class="highlight">{{BesteAnlageform}}</span> als die für dich am sinnvollsten eingestufte Anlageform. {{Begruendung}}
+          </p>
+          <p>
+            Wir raten dir, regelmäßig deine finanzielle Situation zu überprüfen und bei Änderungen deine Investmentstrategie anzupassen.
+          </p>
+        </div>
+        
+        <p>Mit freundlichen Grüßen,<br/>Dein Finance-Check-Team</p>
+      </div>
+      
+      <!-- Fußbereich -->
+      <div class="footer">
+        <p>&copy; {{Jahr}} Finance Check | Alle Rechte vorbehalten</p>
+      </div>
+    </div>
+  </body>
+</html>
