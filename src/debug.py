@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 # Erstelle einen neuen Router für Debug-Endpunkte
 debug_router = APIRouter()
 
-# Datenmodell für User-Eingaben
+# Datenmodell für User-Eingaben - genutzt für Debuging
 class FinanceInput(BaseModel):
     name: str
     email: str
